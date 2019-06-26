@@ -49,5 +49,14 @@ class FeedFragment : Fragment() {
         val dividerItemDecoration = DividerItemDecoration(
             recycler_view_feed.context, viewManager.orientation)
         recycler_view_feed.addItemDecoration(dividerItemDecoration)
+
+        // Bind the "display" button to change the data source
+        button_fetch.setOnClickListener {
+            feedViewModel.setFeedSource(edittext_subreddit.text.toString())
+        }
+        button_fetch.setOnLongClickListener {
+            feedViewModel.setFeedSource(edittext_subreddit.text.toString(),true)
+            true
+        }
     }
 }
