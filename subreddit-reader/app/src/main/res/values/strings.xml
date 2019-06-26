@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Subreddit Reader</string>
+    <string name="fragment_feed_button_fetch_text">Display</string>
 </resources>
