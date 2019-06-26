@@ -1,7 +1,6 @@
 package club.npoverflow.subredditreader.feed
 
 import android.content.Context
-import androidx.room.RoomDatabase
 import club.npoverflow.subredditreader.feed.data.Post
 import club.npoverflow.subredditreader.feed.data.database.FeedDAL
 import club.npoverflow.subredditreader.feed.data.database.room.FeedDatabase
@@ -10,7 +9,6 @@ import club.npoverflow.subredditreader.feed.data.parser.parse
 import club.npoverflow.subredditreader.http.DefaultWebservice
 import club.npoverflow.subredditreader.http.Webservice
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FeedRepository private constructor(
@@ -44,9 +42,8 @@ class FeedRepository private constructor(
 
     private suspend fun refreshDBFeed(subreddit: String) {
         // Always fetch from webservice. Assume that necessary checks have been done
-        val data = webservice.get(subreddit)
+        val data = webservice.get("https://www.reddit.com/r/$subreddit.json")
         val newPosts = parse(data)
-        fetchPostImages(newPosts)
         feedDAL.updateFeed(subreddit, newPosts)
     }
 
@@ -57,11 +54,12 @@ class FeedRepository private constructor(
         return feedDAL.getPosts(subreddit)
     }
 
-    suspend fun getFeed(subreddit: String): List<Post> {
-        if (!feedDAL.hasFeed(subreddit)) {
+    suspend fun getFeed(subreddit: String, forceRefresh: Boolean): List<Post> {
+        if (!feedDAL.hasFeed(subreddit) || forceRefresh) {
             refreshDBFeed(subreddit)
         }
 
-        return feedDAL.getPosts(subreddit)
+        val posts = feedDAL.getPosts(subreddit)
+        return fetchPostImages(posts)
     }
 }

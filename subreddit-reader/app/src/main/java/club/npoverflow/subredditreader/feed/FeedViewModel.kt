@@ -14,13 +14,12 @@ class FeedViewModel(
 
     val feedLiveData: MutableLiveData<List<Post>> = MutableLiveData()
 
-    fun setFeedSource(subreddit: String) {
-        // TODO: check if this works
+    fun setFeedSource(subreddit: String, forceRefresh: Boolean = false) {
         viewModelJob.cancelChildren()
 
-        // TODO: Check if this works
-        uiScope.async {
-            feedLiveData.value = feedRepository.getFeed(subreddit)
+        uiScope.async(Dispatchers.IO) {
+            val newFeed = feedRepository.getFeed(subreddit, forceRefresh)
+            feedLiveData.postValue(newFeed)
         }
     }
 }
