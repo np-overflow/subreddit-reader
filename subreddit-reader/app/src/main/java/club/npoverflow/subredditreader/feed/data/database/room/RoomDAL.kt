@@ -5,11 +5,11 @@ import club.npoverflow.subredditreader.feed.data.database.FeedDAL
 
 class RoomDAL(private val feedDatabase: FeedDatabase) : FeedDAL {
     override fun hasFeed(subreddit: String): Boolean {
-        return feedDatabase.postDao().countPosts(subreddit) > 0
+        return feedDatabase.postDao().countPosts(subreddit.toLowerCase()) > 0
     }
 
     override fun getPosts(subreddit: String): List<Post> {
-        val postEntities = feedDatabase.postDao().getPosts(subreddit)
+        val postEntities = feedDatabase.postDao().getPosts(subreddit.toLowerCase())
         return List(postEntities.size) { postEntities[it].toPost() }
     }
 
@@ -21,11 +21,11 @@ class RoomDAL(private val feedDatabase: FeedDatabase) : FeedDAL {
     }
 
     override fun updateFeed(subreddit: String, posts: List<Post>) {
-        clearFeed(subreddit)
-        createFeed(subreddit, posts)
+        clearFeed(subreddit.toLowerCase())
+        createFeed(subreddit.toLowerCase(), posts)
     }
 
     override fun clearFeed(subreddit: String) {
-        feedDatabase.postDao().deleteAllPosts(subreddit)
+        feedDatabase.postDao().deleteAllPosts(subreddit.toLowerCase())
     }
 }

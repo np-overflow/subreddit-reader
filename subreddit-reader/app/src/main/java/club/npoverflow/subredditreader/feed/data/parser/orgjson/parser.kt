@@ -18,7 +18,7 @@ fun parsePostJson(jsonObject: JSONObject): Post {
         data.getString("selftext"),
         data.getString("thumbnail"),
         data.getString("url"),
-        data.getString("subreddit")
+        data.getString("subreddit").toLowerCase()
     )
 }
 

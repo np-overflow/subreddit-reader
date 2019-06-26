@@ -14,7 +14,7 @@ interface PostDao {
     @Insert(onConflict = REPLACE)
     fun insertPosts(posts: List<PostEntity>)
 
-    @Query("SELECT * FROM postentity WHERE subreddit = :subreddit")
+    @Query("SELECT COUNT(*) FROM postentity WHERE subreddit = :subreddit")
     fun countPosts(subreddit: String): Int
 
     @Query("DELETE FROM postentity WHERE subreddit = :subreddit")
