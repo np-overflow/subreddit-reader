@@ -38,7 +38,7 @@
             android:id="@+id/button_fetch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_feed_button_fetch_text"
+            android:text="@string/feed_button_fetch_text"
             app:layout_constraintTop_toBottomOf="@id/guideline_content_top"
             app:layout_constraintRight_toLeftOf="@id/guideline_content_right" />
 
