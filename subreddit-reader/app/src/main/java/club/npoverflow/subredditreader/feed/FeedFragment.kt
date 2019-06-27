@@ -1,5 +1,7 @@
 package club.npoverflow.subredditreader.feed
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +35,14 @@ class FeedFragment : Fragment() {
         // Prepare for feed RecyclerView
         val viewManager = LinearLayoutManager(context)
         // Start with no elements, update later when the data is ready
-        val viewAdapter = FeedAdapter(listOf())
+        val viewAdapter = FeedAdapter(listOf()) {
+            // Handle post click
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
+            startActivity(intent)
+        }
+        // Create divider
+        val dividerItemDecoration = DividerItemDecoration(
+            recycler_view_feed.context, viewManager.orientation)
 
         // Set an observer on the Feed LiveData for when the data is ready
         feedViewModel.feedLiveData.observe(this, Observer<List<Post>> {
@@ -43,12 +52,11 @@ class FeedFragment : Fragment() {
         recycler_view_feed.apply {
             layoutManager = viewManager
             adapter = viewAdapter
+            addItemDecoration(dividerItemDecoration)
         }
 
-        // Add dividers to RecyclerView
-        val dividerItemDecoration = DividerItemDecoration(
-            recycler_view_feed.context, viewManager.orientation)
-        recycler_view_feed.addItemDecoration(dividerItemDecoration)
+        recycler_view_feed.adapter
+
 
         // Bind the "display" button to change the data source
         button_fetch.setOnClickListener {

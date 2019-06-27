@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import club.npoverflow.subredditreader.R
 import club.npoverflow.subredditreader.feed.data.Post
 
-class FeedAdapter(private var posts: List<Post>) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
-    class FeedViewHolder(feedView: ViewGroup) : RecyclerView.ViewHolder(feedView) {
+class FeedAdapter(
+    private var posts: List<Post>,
+    private val onClickListener: (Post) -> Unit
+) : RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
+    class FeedViewHolder(val feedView: ViewGroup) : RecyclerView.ViewHolder(feedView) {
         val authorTextView: TextView = feedView.findViewById(R.id.textview_author)
         val subredditTextView: TextView = feedView.findViewById(R.id.textview_subreddit)
         val titleTextView: TextView = feedView.findViewById(R.id.textview_title)
@@ -38,6 +41,10 @@ class FeedAdapter(private var posts: List<Post>) : RecyclerView.Adapter<FeedAdap
         if (post.image != null) {
             // Image as content
             holder.imageImageView.setImageBitmap(post.image)
+        }
+
+        holder.feedView.setOnClickListener {
+            onClickListener(post)
         }
     }
 
