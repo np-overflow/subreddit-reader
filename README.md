@@ -6,4 +6,5 @@ A `http` module and `parser` module are given. The `http` module provides code t
 ## Branches
 There are two branches, `master` and `complete`. The `complete` is what your app should look like (or at least similar) at the end of the workshop. Note that although [Kotlin coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) are used in the project, they will not be taught (unless we have time).
 
-The workshop slides will be released after the workshop.
+The workshop slides can be found [here](https://docs.google.com/presentation/d/1O4KlGIfLgopYMOFq2ojhTL9w5pw2TxYyiTy5t8_fFaM/edit#slide=id.g5c76559b56_0_10)
+
