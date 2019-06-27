@@ -9,6 +9,8 @@ import club.npoverflow.subredditreader.feed.data.parser.parse
 import club.npoverflow.subredditreader.http.DefaultWebservice
 import club.npoverflow.subredditreader.http.Webservice
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.withContext
 
 class FeedRepository private constructor(
@@ -33,10 +35,18 @@ class FeedRepository private constructor(
     }
 
     private suspend fun fetchPostImages(posts: List<Post>): List<Post> = withContext(Dispatchers.IO) {
+        val jobs = List(posts.size) {
+            async {
+                val newPost = posts[it].copy()
+                newPost.image = posts[it].fetchImage(webservice)
+                newPost
+            }
+        }
+
+        jobs.joinAll()
+
         List(posts.size) {
-            val newPost = posts[it].copy()
-            newPost.image = posts[it].fetchImage(webservice)
-            newPost
+            jobs[it].getCompleted()
         }
     }
 
