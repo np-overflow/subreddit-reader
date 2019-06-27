@@ -32,15 +32,12 @@ class FeedAdapter(private var posts: List<Post>) : RecyclerView.Adapter<FeedAdap
         holder.authorTextView.text =  context.getString(R.string.feed_item_posted_by, post.author)
         holder.subredditTextView.text = context.getString(R.string.feed_item_subreddit, post.subreddit)
         holder.titleTextView.text = post.title
+        holder.contentTextView.text = post.content
 
-        if (post.image == null) {
-            // Text-based, no associated image
-            holder.contentTextView.text = post.content
-            holder.imageImageView.visibility = View.GONE
-        } else {
+        holder.imageImageView.setImageDrawable(null)
+        if (post.image != null) {
             // Image as content
             holder.imageImageView.setImageBitmap(post.image)
-            holder.contentTextView.visibility = View.GONE
         }
     }
 
