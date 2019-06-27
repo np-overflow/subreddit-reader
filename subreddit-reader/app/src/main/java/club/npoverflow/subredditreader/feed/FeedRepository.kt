@@ -40,14 +40,14 @@ class FeedRepository private constructor(
         }
     }
 
-    private suspend fun refreshDBFeed(subreddit: String) {
+    private fun refreshDBFeed(subreddit: String) {
         // Always fetch from webservice. Assume that necessary checks have been done
         val data = webservice.get("https://www.reddit.com/r/$subreddit.json")
         val newPosts = parse(data)
         feedDAL.updateFeed(subreddit, newPosts)
     }
 
-    suspend fun refreshFeed(subreddit: String): List<Post> {
+    fun refreshFeed(subreddit: String): List<Post> {
         feedDAL.clearFeed(subreddit)
         refreshDBFeed(subreddit)
 
