@@ -30,6 +30,8 @@
             android:id="@+id/edittext_subreddit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
             app:layout_constraintLeft_toLeftOf="@id/guideline_content_left"
             app:layout_constraintRight_toLeftOf="@id/button_fetch"
             app:layout_constraintTop_toTopOf="@id/guideline_content_top" />
